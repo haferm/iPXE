@@ -24,4 +24,4 @@ services:
     volumes:
       - ./tftpboot:/tftpboot
 
-   restart: unless-stopped
+    restart: unless-stopped
