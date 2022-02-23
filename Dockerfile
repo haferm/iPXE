@@ -13,27 +13,28 @@ LABEL description="This is custom Docker Image for ipxe Server"
 RUN apt-get update
 
 # Install needed Apps
-RUN apt-get install -y tftpd-hpa ipxe supervisor
+RUN apt-get install -y tftpd-hpa xinetd ipxe supervisor
 RUN apt-get clean
 
 # Verzeichnis anlegen
-RUN mkdir /srv/tftp/menue
+RUN mkdir -p /tftpboot
+RUN mkdir -p /tftpboot/menue
+RUN mkdir -p /var/log/supervisor
+
 
 # Files kopieren
-RUN cp /usr/lib/ipxe/undionly.kpxe /srv/tftp/
-RUN cp /usr/lib/ipxe/ipxe.efi /srv/tftp/
+RUN cp /usr/lib/ipxe/undionly.kpxe /tftpboot/
+RUN cp /usr/lib/ipxe/ipxe.efi /tftpboot/
 
-# Volume configuration
-VOLUME ["/srv/tftp", "/etc/default"]
-
-# Expose Port and Volume for the Application
-EXPOSE 66
-VOLUME /srv/tftp
-VOLUME /etc/default
+EXPOSE 69/udp
+VOLUME /tftpboot
 
 
 # Copy Start Script and run
-RUN echo "**** cleanup ****"
-COPY supervisord.conf /etc/supervisor/supervisord.conf
-COPY start.sh /start.sh
+RUN echo "**** copying files ****"
+COPY ./supervisord.conf /etc/supervisor/supervisord.conf
+COPY ./tftpd-hpa /etc/default/tftpd-hap
+COPY ./tftp /etc/xinetd.d/tftp
+COPY ./start.sh /start.sh
+
 CMD ["sh","/start.sh"]
