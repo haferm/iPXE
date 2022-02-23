@@ -26,8 +26,14 @@ RUN cp /usr/lib/ipxe/ipxe.efi /srv/tftp/
 # Restart TFTP Service
 RUN service tftpd-hpa restart
 
+# Volume configuration
+VOLUME ["/srv/tftp", "/etc/default"]
+
+# Copy Start Script and run
+COPY start.sh /start.sh
+CMD ["./start.sh"]
 
 # Expose Port and Volume for the Application
 EXPOSE 66
 VOLUME /srv/tftp
-VOLUME /etc/default/
+VOLUME /etc/default
