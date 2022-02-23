@@ -30,7 +30,7 @@ RUN service tftpd-hpa restart
 VOLUME ["/srv/tftp", "/etc/default"]
 
 # Copy Start Script and run
-COPY start.sh /start.sh
+COPY /root/start.sh /start.sh
 CMD ["./start.sh"]
 
 # Expose Port and Volume for the Application
