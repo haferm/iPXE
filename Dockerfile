@@ -35,6 +35,6 @@ VOLUME /srv/tftp
 VOLUME /etc/default
 
 # Copy Start Script and run
-COPY /root/start.sh /start.sh
+COPY start.sh /start.sh
 CMD ["sh","/start.sh"]
 
