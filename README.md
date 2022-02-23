@@ -1,4 +1,4 @@
-# ipxe
+# ipxe boot environement for Bios and UEFI
 
 Dockerimage for ipxe for uefi and bios pxe boot
 
@@ -7,7 +7,7 @@ Install the docker container via command line:
 
 ```bash
 docker pull haferm/ipxe
-docker run --name iperf3 -p 69:69 -v haferm/ipxe
+docker run --name ipxe -p 69:69 -v tftpboot:tftpboot haferm/ipxe
 ```
 
 ### Installation via docker compose
