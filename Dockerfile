@@ -10,11 +10,11 @@ LABEL description="This is custom Docker Image for ipxe Server"
 # ARG DEBIAN_FRONTEND=noninteractive
 
 # Update Ubuntu Software repository
-RUN apt update
+RUN apt-get update
 
 # Install needed Apps
-RUN apt install -y tftpd-hpa ipxe
-RUN apt clean
+RUN apt-get install -y tftpd-hpa ipxe supervisor
+RUN apt-get clean
 
 # Verzeichnis anlegen
 RUN mkdir /srv/tftp/menue
@@ -22,9 +22,6 @@ RUN mkdir /srv/tftp/menue
 # Files kopieren
 RUN cp /usr/lib/ipxe/undionly.kpxe /srv/tftp/
 RUN cp /usr/lib/ipxe/ipxe.efi /srv/tftp/
-
-# Restart TFTP Service
-RUN service tftpd-hpa restart
 
 # Volume configuration
 VOLUME ["/srv/tftp", "/etc/default"]
@@ -34,7 +31,9 @@ EXPOSE 66
 VOLUME /srv/tftp
 VOLUME /etc/default
 
+
 # Copy Start Script and run
+RUN echo "**** cleanup ****"
+COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY start.sh /start.sh
 CMD ["sh","/start.sh"]
-
