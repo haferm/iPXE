@@ -7,7 +7,7 @@ Install the docker container via command line:
 
 ```bash
 docker pull haferm/ipxe
-docker run --name iperf3 -p 5201:5201 -v haferm/ipxe
+docker run --name iperf3 -p 69:69 -v haferm/ipxe
 ```
 
 ### Installation via docker compose
@@ -20,9 +20,8 @@ services:
     image: haferm/ipxe
     container_name: ipxe
     ports:
-      - 66:66
+      - 69:69/udp
     volumes:
-      - ./tftp:/srv/tftp
-      - ./config:/etc/default/
-      
-    restart: unless-stopped
+      - ./tftpboot:/tftpboot
+
+   restart: unless-stopped
